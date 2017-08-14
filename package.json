@@ -1,0 +1,20 @@
+{
+  "name": "beatmap-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress" 
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "buble": "^0.15.2",
+    "buble-loader": "^0.4.1",
+    "riot": "^3.6.1",
+    "riot-route": "^3.1.2",
+    "riot-tag-loader": "^1.0.0",
+    "webpack": "^3.5.4"
+  }
+}
