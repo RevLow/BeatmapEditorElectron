@@ -1,38 +1,67 @@
 <BeatmapEditor>
-  <canvas id="llsif-editor-view"></canvas>
+  <canvas id="llsif-editor-view" onclick="{ this.canvasClick }"></canvas>
   <script>
-    var width = 1600;
-    var height = 5098;
-    var stage = null;
-    var render = null;
-    var textobj = null;
+    import DRAW_MODE from "../app/draw_mode.js";
+    /**
+     * データを描画用に変換する
+     */
+    this.store = opts.store;
+    this.dispatcher = opts.dispatcher;
+    this.dispatcher.addStore(this.store);
 
-    this.on("mount", function() {
-      // ステージ
-      // 0x000000は背景色 16進数000000
-      stage = new PIXI.Stage(0xFF6666);
-      // レンダラー
-      render = PIXI.autoDetectRenderer(width, height, {
-        view: document.getElementById("llsif-editor-view")
+    this.on("mount", () => {
+      let canvas = document.getElementById("llsif-editor-view");
+      let width = $("beatmapeditor").width();
+      this.store.init({
+        width: width,
+        height: 1920,
+        view: canvas
       });
-
-      var word = "Hello World";
-      var style = {
-        font: "bold 60pt Arial",
-        fill: "white"
-      }
-      textobj = new PIXI.Text(word, style);
-      textobj.position.x = 60;
-      textobj.position.y = height / 2;
-
-      stage.addChild(textobj);
-      requestAnimationFrame(animate);
     });
 
-    function animate() {
-      requestAnimationFrame(animate);
-      textobj.rotation += 0.01;
-      render.render(stage);
-    }
+    this.store.on("canvas_click", (action) => {
+      console.log("X:["+action.position.x+"], Y:["+action.position.y+"]");
+      switch(this.store.mode){
+        case(DRAW_MODE.move):
+          console.log("clicked mode:[MOVE]");
+          break;
+        case(DRAW_MODE.draw):{
+          this.store.addNotes(action.position.x, action.position.y);
+          break;
+        }
+        case(DRAW_MODE.delete):
+          break;
+        case(DRAW_MODE.star):
+          break;
+        case(DRAW_MODE.longnotes):
+          break;
+        case(DRAW_MODE.swing):
+          break;
+        default:
+          break;
+      }
+    });
+
+    this.store.on("change_mode", (action) => {
+      this.store.mode = action.mode;
+    })
+
+    this.store.on("window_resized", (action) => {
+      let width = $("beatmapeditor").width();
+      let height = this.store.size.height;
+      this.store.resized({width: width, height: height});
+    });
+
+    this.canvasClick = (e) => {
+      let position = {
+        x: e.offsetX,
+        y: e.offsetY
+      };
+      const clickAction = {
+        type: "click",
+        position: position
+      };
+      this.dispatcher.trigger("canvas_click", clickAction);
+    };
   </script>
 </BeatmapEditor>
