@@ -5,7 +5,7 @@
       <li class="tab"><a href="#tab-2">{ opts.tab2 }</a></li>
     </ul>
   </div>
-  <div class="card-content">
+  <div class="card-content"  style="height: 82vh; overflow: scroll">
     <yield />
   </div>
 </SideBarTab>
