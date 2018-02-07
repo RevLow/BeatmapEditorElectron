@@ -12,9 +12,10 @@
     this.on("mount", () => {
       let canvas = document.getElementById("llsif-editor-view");
       let width = $("beatmapeditor").width();
+      let height = $("beatmapeditor").height();
       this.store.init({
         width: width,
-        height: 1920,
+        height: height,
         view: canvas
       });
     });
@@ -48,7 +49,7 @@
 
     this.store.on("window_resized", (action) => {
       let width = $("beatmapeditor").width();
-      let height = this.store.size.height;
+      let height = $("beatmapeditor").height();
       this.store.resized({width: width, height: height});
     });
 

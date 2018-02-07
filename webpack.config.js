@@ -3,7 +3,7 @@ const webpack = require('webpack');
 module.exports = [
   {
     entry: {
-      'vendor':'./app/pixi.min.js',
+      'vendor':['./app/pixi.min.js', './app/TweenMax.min.js'],
       'app/entry':'./app/entry.js'
     },
     output: {
